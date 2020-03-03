@@ -90,17 +90,17 @@ class ResNet(nn.Module):
     def _make_glore(self, num_in):
 
         block = []
-        in_plane_list = [num_in*block.expansion, 
-            num_in*block.expansion, 
-            num_in*block.expansion//4,
-            num_in*block.expansion//2,
-            num_in*block.expansion//2]
+        in_plane_list = [num_in, 
+            num_in, 
+            num_in//4,
+            num_in//2,
+            num_in//2]
 
-        out_plane_list = [num_in*block.expansion//2, 
-            num_in*block.expansion//4, 
-            num_in*block.expansion//4,
-            num_in*block.expansion//2,
-            num_in*block.expansion]
+        out_plane_list = [num_in//2, 
+            num_in//4, 
+            num_in//4,
+            num_in//2,
+            num_in]
 
         dim_list = [2,2,1,1,2]
 
@@ -133,7 +133,7 @@ class ResNet(nn.Module):
 
         out = self.layer4(out)
         #glore for (0,1)
-        out = self.glore(out,2048,self.layers)
+        out = self.glore(out,self.glore_layers)
 
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
